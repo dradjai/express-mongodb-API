@@ -31,11 +31,27 @@ export async function deletePlant(req, res) {
 
 export async function updatePlant(req, res) {
 
-  const docId = {" _id": new ObjectId(req.params.docId)};
-  const updatePlant = req.body;
-  await coll.findOneAndUpdate({"_id": docId}, {$set: {updatePlant}});
+  const docId = {"_id": new ObjectId(req.params.docId)};
+  const updatePlant = { $set: req.body};
+  const returnOption = { returnNewDocument: true};
+  console.log(docId);
+
+  const query = await coll.findOneAndUpdate(docId, updatePlant, returnOption);
+
   res.status(201).send({message: "plant has been updated"})
+  console.table(query.value);
+
 }
+
+// export async function updatePlant(req, res) { 
+
+//   const id = {"_id": new ObjectId(req.params.docId)};
+//   const updatedValues = req.body;
+//   await coll.updateOne(id, {$set: updatedValues});
+//   res.status(201).send({message: "plant has been updated"});
+
+// }
+
 
 
 
